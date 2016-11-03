@@ -142,6 +142,37 @@
     
 }
 
++ (instancetype)configurationWithRes:(BOOL)is720
+                                rate:(NSUInteger)rate
+                                 fps:(NSUInteger)fps
+              outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation
+{
+    LFLiveVideoConfiguration *configuration = [LFLiveVideoConfiguration new];
+    configuration.sessionPreset = LFCaptureSessionPreset720x1280;
+    configuration.videoFrameRate = fps;
+    configuration.videoMaxFrameRate = 30;
+    configuration.videoMinFrameRate = 15;
+    configuration.videoBitRate = rate;
+    configuration.videoMaxBitRate = 1440 * 1000;
+    configuration.videoMinBitRate = 500 * 1000;
+    if (is720) {
+        configuration.videoSize = CGSizeMake(720, 1280);
+    } else {
+        configuration.videoSize = CGSizeMake(1080, 1920);
+    }
+    
+    configuration.sessionPreset = [configuration supportSessionPreset:configuration.sessionPreset];
+    configuration.videoMaxKeyframeInterval = configuration.videoFrameRate*2;
+    configuration.outputImageOrientation = outputImageOrientation;
+    CGSize size = configuration.videoSize;
+    if (outputImageOrientation != UIInterfaceOrientationPortrait) {
+        configuration.videoSize = CGSizeMake(size.height, size.width);
+    } else {
+        configuration.videoSize = CGSizeMake(size.width, size.height);
+    }
+    return configuration;
+}
+
 #pragma mark -- Setter Getter
 - (NSString *)avSessionPreset {
     NSString *avSessionPreset = nil;

@@ -191,22 +191,27 @@ SAVC(mp4a);
             self.debugInfo.dataFlow += frame.data.length;
             self.debugInfo.elapsedMilli = CACurrentMediaTime() * 1000 - self.debugInfo.timeStamp;
             if (self.debugInfo.elapsedMilli < 1000) {
-                self.debugInfo.bandwidth += frame.data.length;
+                self.debugInfo.bandwidth += frame.data.length * 8;
                 if ([frame isKindOfClass:[LFAudioFrame class]]) {
                     self.debugInfo.capturedAudioCount++;
+                    self.debugInfo.audioBandwidth += frame.data.length * 8;
                 } else {
                     self.debugInfo.capturedVideoCount++;
+                    self.debugInfo.videoBandwidth += frame.data.length * 8;
                 }
-
                 self.debugInfo.unSendCount = self.buffer.list.count;
             } else {
                 self.debugInfo.currentBandwidth = self.debugInfo.bandwidth;
+                self.debugInfo.currentAudioBandwidth = self.debugInfo.audioBandwidth;
+                self.debugInfo.currentVideoBandwidth = self.debugInfo.videoBandwidth;
                 self.debugInfo.currentCapturedAudioCount = self.debugInfo.capturedAudioCount;
                 self.debugInfo.currentCapturedVideoCount = self.debugInfo.capturedVideoCount;
                 if (self.delegate && [self.delegate respondsToSelector:@selector(socketDebug:debugInfo:)]) {
                     [self.delegate socketDebug:self debugInfo:self.debugInfo];
                 }
                 self.debugInfo.bandwidth = 0;
+                self.debugInfo.audioBandwidth = 0;
+                self.debugInfo.videoBandwidth = 0;
                 self.debugInfo.capturedAudioCount = 0;
                 self.debugInfo.capturedVideoCount = 0;
                 self.debugInfo.timeStamp = CACurrentMediaTime() * 1000;

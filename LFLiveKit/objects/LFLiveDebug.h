@@ -21,6 +21,10 @@
 @property (nonatomic, assign) CGFloat dataFlow;                         ///< 总流量
 @property (nonatomic, assign) CGFloat bandwidth;                        ///< 1s内总带宽
 @property (nonatomic, assign) CGFloat currentBandwidth;                 ///< 上次的带宽
+@property (nonatomic, assign) CGFloat videoBandwidth;                        ///< 1s内视频总带宽
+@property (nonatomic, assign) CGFloat audioBandwidth;                        ///< 1s内音频总带宽
+@property (nonatomic, assign) CGFloat currentVideoBandwidth;                        ///< 上次的视频总带宽
+@property (nonatomic, assign) CGFloat currentAudioBandwidth;                        ///< 上次的音频总带宽
 
 @property (nonatomic, assign) NSInteger dropFrame;                      ///< 丢掉的帧数
 @property (nonatomic, assign) NSInteger totalFrame;                     ///< 总帧数
