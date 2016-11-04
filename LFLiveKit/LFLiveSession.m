@@ -236,6 +236,9 @@
 }
 
 - (void)setCaptureDevicePosition:(AVCaptureDevicePosition)captureDevicePosition {
+    if (self.captureDevicePosition == captureDevicePosition) {
+        return;
+    }
     [self willChangeValueForKey:@"captureDevicePosition"];
     [self.videoCaptureSource setCaptureDevicePosition:captureDevicePosition];
     [self didChangeValueForKey:@"captureDevicePosition"];
